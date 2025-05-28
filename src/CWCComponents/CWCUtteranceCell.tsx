@@ -1,26 +1,26 @@
-import { Label, makeStyles, Text } from "@fluentui/react-components"
+import {
+  Label,
+  makeStyles,
+  mergeClasses,
+  Text,
+} from "@fluentui/react-components"
 
 export type CWCUtteranceCellProps = {
   text: string
   delta: number
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 const useStyles = makeStyles({
   container: {
-    display: "flex",
-    flexDirection: "row",
     width: "90%",
     backgroundColor: "#EBEFFF",
     borderRadius: "8px",
     border: "1px solid #ccc",
     padding: "8px",
-  },
-  text: {
-    flexBasis: "80%",
-    flexShrink: 0,
+    display: "flex",
   },
   delta: {
-    marginLeft: "auto",
+    float: "right",
     display: "flex",
     gap: "8px",
   },
@@ -32,13 +32,17 @@ const useStyles = makeStyles({
   },
 })
 
-export const CWCUtteranceCell = ({ text, delta }: CWCUtteranceCellProps) => {
+export const CWCUtteranceCell = ({
+  text,
+  delta,
+  className,
+}: CWCUtteranceCellProps) => {
   const styles = useStyles()
   const deltaText = delta > 0 ? `+${delta.toFixed(2)}` : `${delta.toFixed(2)}`
   const deltaClass = delta > 0 ? styles.green : styles.red
   return (
-    <div className={styles.container}>
-      <Text className={styles.text}>{text}</Text>
+    <div className={mergeClasses(styles.container, className)}>
+      <p>{text}</p>
       <div className={styles.delta}>
         <Label size="small">Delta</Label>
         <Label size="small" className={deltaClass}>

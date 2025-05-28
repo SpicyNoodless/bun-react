@@ -25,6 +25,9 @@ const useStyles = makeStyles({
     gap: "16px",
     width: "100%",
   },
+  cell: {
+    margin: "5px auto",
+  },
 })
 
 export const CWCUtteranceList = ({
@@ -53,6 +56,7 @@ export const CWCUtteranceList = ({
             key={useId("utterance-cell-")}
             text={item.text}
             delta={item.delta}
+            className={styles.cell}
           />
         ))}
       </InfiniteScroll>
