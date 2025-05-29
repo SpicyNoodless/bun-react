@@ -63,10 +63,12 @@ const useStyles = makeStyles({
     height: "90%",
     maxWidth: "90%",
     maxHeight: "90%",
+    padding: "16px",
   },
   content: {
     display: "flex",
     flexDirection: "row",
+    gap: "8px",
   },
   cellList: {
     flexBasis: "20%",
@@ -100,6 +102,7 @@ export function App() {
       </DialogTrigger>
       <DialogSurface className={styles.container}>
         <DialogBody>
+          <DialogTitle>Utterance Diagnosis</DialogTitle>
           <DialogTitle
             action={
               <DialogTrigger action="close">
@@ -107,7 +110,6 @@ export function App() {
               </DialogTrigger>
             }
           ></DialogTitle>
-          <DialogTitle>Utterance Diagnosis</DialogTitle>
           <DialogContent>
             <div className={styles.content}>
               <CWCUtteranceList

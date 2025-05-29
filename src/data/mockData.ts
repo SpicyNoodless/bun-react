@@ -54,7 +54,7 @@ export const mockCellItems: CWCUtteranceCellProps[] = [
     delta: 21.3,
   },
   {
-    text: "A course on how to detect and correct the biases that operate below our conscious awareness.",
+    text: "A course on how to detect and correct the biases that operate below our conscious awareness. A course on how to detect and correct the biases that operate below our conscious awareness. A course on how to detect and correct the biases that operate below our conscious awareness.",
     delta: 43.0,
   },
   {

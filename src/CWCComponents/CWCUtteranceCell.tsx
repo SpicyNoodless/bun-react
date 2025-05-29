@@ -18,17 +18,29 @@ const useStyles = makeStyles({
     border: "1px solid #ccc",
     padding: "8px",
     display: "flex",
+    gap: "16px",
   },
   delta: {
-    float: "right",
     display: "flex",
     gap: "8px",
+    marginLeft: "auto",
   },
   green: {
     color: "green",
   },
   red: {
     color: "red",
+  },
+  gray: {
+    color: "gray",
+  },
+  text: {
+    textOverflow: "ellipsis",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 3,
+    overflow: "hidden",
+    maxWidth: "80%",
   },
 })
 
@@ -38,13 +50,22 @@ export const CWCUtteranceCell = ({
   className,
 }: CWCUtteranceCellProps) => {
   const styles = useStyles()
-  const deltaText = delta > 0 ? `+${delta.toFixed(2)}` : `${delta.toFixed(2)}`
-  const deltaClass = delta > 0 ? styles.green : styles.red
+  let deltaClass = styles.gray
+  let deltaText = "+0.00"
+  if (delta > 0) {
+    deltaClass = styles.green
+    deltaText = `+${delta.toFixed(2)}`
+  } else if (delta < 0) {
+    deltaClass = styles.red
+    deltaText = `${delta.toFixed(2)}`
+  }
+
   return (
     <div className={mergeClasses(styles.container, className)}>
-      <p>{text}</p>
+      <Text truncate={true} className={styles.text}>
+        {text}
+      </Text>
       <div className={styles.delta}>
-        <Label size="small">Delta</Label>
         <Label size="small" className={deltaClass}>
           {deltaText}
         </Label>
