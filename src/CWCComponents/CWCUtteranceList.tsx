@@ -11,11 +11,12 @@ import {
 } from "./CWCUtteranceCell"
 import { Search16Filled } from "@fluentui/react-icons"
 import InfiniteScroll from "react-infinite-scroll-component"
-import type React from "react"
+import React from "react"
 
 type CWCUtteranceListProps = {
   metric: string
   items: CWCUtteranceCellProps[]
+  onFetchData?: () => void
 } & React.HTMLAttributes<HTMLDivElement>
 
 const useStyles = makeStyles({
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
     width: "100%",
   },
   cell: {
-    margin: "5px auto",
+    marginBottom: "8px",
   },
 })
 
@@ -34,6 +35,7 @@ export const CWCUtteranceList = ({
   metric,
   items,
   className,
+  onFetchData,
 }: CWCUtteranceListProps) => {
   const styles = useStyles()
   return (
@@ -42,8 +44,9 @@ export const CWCUtteranceList = ({
       <Text>Sort by {<Text>{metric}</Text>} delta</Text>
       <InfiniteScroll
         dataLength={items.length}
-        next={() => {}}
-        hasMore={false}
+        pullDownToRefresh
+        next={onFetchData}
+        hasMore={true}
         loader={<h4>Loading...</h4>}
         endMessage={
           <p style={{ textAlign: "center" }}>

@@ -20,6 +20,8 @@ import { Dismiss24Regular } from "@fluentui/react-icons"
 import { CWCConversation } from "./CWCComponents/CWCConversation"
 import { mockCellItems, mockConversation } from "./data/mockData"
 import { CWCUtteranceList } from "./CWCComponents/CWCUtteranceList"
+import React from "react"
+import type { CWCUtteranceCellProps } from "./CWCComponents/CWCUtteranceCell"
 
 const cellItems = [
   "Can you come up with a funny out-of-office message?",
@@ -42,18 +44,6 @@ const dropDownItems = [
   "Metrics: sbsleo_score_c",
 ]
 
-type CellProps = {
-  text: string
-}
-
-const Cell = ({ text }: CellProps) => {
-  return (
-    <div>
-      <span>{text}</span>
-    </div>
-  )
-}
-
 const useStyles = makeStyles({
   title: {
     marginBottom: "160px",
@@ -69,6 +59,10 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row",
     gap: "8px",
+    height: "100%",
+  },
+  body: {
+    height: "100%",
   },
   cellList: {
     flexBasis: "20%",
@@ -77,7 +71,7 @@ const useStyles = makeStyles({
   details: {
     display: "flex",
     flexDirection: "column",
-    marginLeft: "16px",
+    marginLeft: "8px",
     gap: "16px",
   },
   metricsSelection: {
@@ -90,10 +84,23 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row",
     gap: "16px",
+    flexGrow: 1,
   },
 })
 
 export function App() {
+  const [cellItems, setCellItems] = React.useState<CWCUtteranceCellProps[]>(
+    mockCellItems.slice(0, 4)
+  )
+
+  const onFetchData = () => {
+    const nextItems = mockCellItems.slice(
+      cellItems.length,
+      cellItems.length + 4
+    )
+    setCellItems((prevItems) => [...prevItems, ...nextItems])
+  }
+
   const styles = useStyles()
   return (
     <Dialog modalType="alert" className={styles.container}>
@@ -101,7 +108,7 @@ export function App() {
         <Button>Open dialog</Button>
       </DialogTrigger>
       <DialogSurface className={styles.container}>
-        <DialogBody>
+        <DialogBody className={styles.body}>
           <DialogTitle>Utterance Diagnosis</DialogTitle>
           <DialogTitle
             action={
@@ -114,7 +121,8 @@ export function App() {
             <div className={styles.content}>
               <CWCUtteranceList
                 metric="sbsleo score"
-                items={mockCellItems}
+                items={cellItems}
+                onFetchData={onFetchData}
                 className={styles.cellList}
               />
               <Divider vertical={true} />

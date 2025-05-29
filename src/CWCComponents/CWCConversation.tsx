@@ -3,6 +3,7 @@ import {
   Label,
   Link,
   makeStyles,
+  mergeClasses,
   Tab,
   TabList,
   Text,
@@ -18,7 +19,7 @@ export type CWCConversationProps = {
   }
   utterance: string
   content: string
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 const useStyles = makeStyles({
   container: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles({
     borderRadius: "12px",
     gap: "16px",
     padding: "16px",
+    flexGrow: 1,
   },
   utterance: {
     backgroundColor: "#EBEFFF",
@@ -60,10 +62,11 @@ export const CWCConversation = ({
   score,
   utterance,
   content,
+  className,
 }: CWCConversationProps) => {
   const styles = useStyles()
   return (
-    <div className={styles.container}>
+    <div className={mergeClasses(styles.container, className)}>
       <div className={styles.header}>
         <Label size="large" weight="semibold">
           {title}
