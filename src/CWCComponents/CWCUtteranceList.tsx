@@ -10,8 +10,7 @@ import {
   type CWCUtteranceCellProps,
 } from "./CWCUtteranceCell"
 import { Search16Filled } from "@fluentui/react-icons"
-import InfiniteScroll from "react-infinite-scroll-component"
-import React from "react"
+import { InfiniteScrollList } from "./WindowScrollList"
 
 type CWCUtteranceListProps = {
   metric: string
@@ -25,9 +24,13 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gap: "16px",
     width: "100%",
+    height: "100%",
   },
   cell: {
     marginBottom: "8px",
+  },
+  list: {
+    height: "300",
   },
 })
 
@@ -38,31 +41,28 @@ export const CWCUtteranceList = ({
   onFetchData,
 }: CWCUtteranceListProps) => {
   const styles = useStyles()
+  const cellIdPrefix = useId("utterance-cell-")
+
+  const renderItem = (item: CWCUtteranceCellProps) => {
+    return (
+      <CWCUtteranceCell
+        key={`${cellIdPrefix}-${item.id}`}
+        text={item.text}
+        delta={item.delta}
+      />
+    )
+  }
+
   return (
     <div className={mergeClasses(styles.container, className)}>
       <Input contentBefore={<Search16Filled />} />
       <Text>Sort by {<Text>{metric}</Text>} delta</Text>
-      <InfiniteScroll
-        dataLength={items.length}
-        pullDownToRefresh
-        next={onFetchData}
-        hasMore={true}
-        loader={<h4>Loading...</h4>}
-        endMessage={
-          <p style={{ textAlign: "center" }}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
-      >
-        {items.map((item, index) => (
-          <CWCUtteranceCell
-            key={useId("utterance-cell-")}
-            text={item.text}
-            delta={item.delta}
-            className={styles.cell}
-          />
-        ))}
-      </InfiniteScroll>
+      <InfiniteScrollList
+        data={items}
+        loadMore={onFetchData}
+        itemHeight={90}
+        renderItem={renderItem}
+      />
     </div>
   )
 }
