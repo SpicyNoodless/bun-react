@@ -3,14 +3,11 @@ import {
   makeStyles,
   mergeClasses,
   Text,
-  useId,
 } from "@fluentui/react-components"
-import {
-  CWCUtteranceCell,
-  type CWCUtteranceCellProps,
-} from "./CWCUtteranceCell"
+import { type CWCUtteranceCellProps } from "./CWCUtteranceCell"
 import { Search16Filled } from "@fluentui/react-icons"
-import { InfiniteDynamicList } from "./DynamicHeightList"
+import { UtteranceList } from "./UtteranceList"
+import { mockCellItems } from "@/data/mockData"
 
 type CWCUtteranceListProps = {
   metric: string
@@ -26,11 +23,17 @@ const useStyles = makeStyles({
     width: "100%",
     height: "100%",
   },
+  header: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+  },
+  searchBox: {
+    borderRadius: "8px",
+    marginRight: "16px",
+  },
   cell: {
     marginBottom: "8px",
-  },
-  list: {
-    height: "300",
   },
 })
 
@@ -41,30 +44,17 @@ export const CWCUtteranceList = ({
   onFetchData,
 }: CWCUtteranceListProps) => {
   const styles = useStyles()
-  const cellIdPrefix = useId("utterance-cell-")
-
-  const renderItem = (index: number) => {
-    const item = items[index]
-    return (
-      <CWCUtteranceCell
-        key={`${cellIdPrefix}-${item.id}`}
-        text={item.text}
-        delta={item.delta}
-      />
-    )
-  }
 
   return (
     <div className={mergeClasses(styles.container, className)}>
-      <Input contentBefore={<Search16Filled />} />
-      <Text>Sort by {<Text>{metric}</Text>} delta</Text>
-      <InfiniteDynamicList
-        items={items}
-        estimatedItemHeight={50}
-        loadMore={onFetchData}
-        renderItem={renderItem}
-        className={styles.list}
-      />
+      <div className={styles.header}>
+        <Input
+          placeholder={"Search utterance"}
+          contentBefore={<Search16Filled />}
+          className={styles.searchBox}
+        />
+      </div>
+      <UtteranceList items={items} metric={metric} onFetchData={onFetchData} />
     </div>
   )
 }

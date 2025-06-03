@@ -13,9 +13,6 @@ export type CWCUtteranceCellProps = {
 const useStyles = makeStyles({
   container: {
     width: "90%",
-    backgroundColor: "#EBEFFF",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
     padding: "8px",
     display: "flex",
     gap: "16px",

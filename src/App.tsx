@@ -21,21 +21,6 @@ import React from "react"
 import { type CWCUtteranceCellProps } from "./CWCComponents/CWCUtteranceCell"
 import { cloneDeep } from "lodash"
 
-const cellItems = [
-  "Can you come up with a funny out-of-office message?",
-  "Can you explain how to implement error enums and option enums in Rust?",
-  "A client is asking for a feature that allows them to export their data in a specific format. How would you approach this?",
-  "Can you explain the concept of ownership in Rust?",
-  "Can you come up with a funny out-of-office message?",
-  "Can you explain how to implement error enums and option enums in Rust?",
-  "A client is asking for a feature that allows them to export their data in a specific format. How would you approach this?",
-  "Can you explain the concept of ownership in Rust?",
-  "Can you come up with a funny out-of-office message?",
-  "Can you explain how to implement error enums and option enums in Rust?",
-  "A client is asking for a feature that allows them to export their data in a specific format. How would you approach this?",
-  "Can you explain the concept of ownership in Rust?",
-]
-
 const dropDownItems = [
   "Metrics: sbsleo_score_a",
   "Metrics: sbsleo_score_b",
@@ -43,9 +28,6 @@ const dropDownItems = [
 ]
 
 const useStyles = makeStyles({
-  title: {
-    marginBottom: "160px",
-  },
   container: {
     width: "90%",
     height: "90%",
@@ -110,7 +92,9 @@ export function App() {
       </DialogTrigger>
       <DialogSurface className={styles.container}>
         <DialogBody className={styles.body}>
-          <DialogTitle>Utterance Diagnosis</DialogTitle>
+          <DialogTitle>
+            {"Utterance Diagnosis of experiment (cwc_control: cwc_treatment)"}
+          </DialogTitle>
           <DialogTitle
             action={
               <DialogTrigger action="close">
