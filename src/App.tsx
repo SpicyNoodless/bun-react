@@ -4,7 +4,6 @@ import {
   DialogSurface,
   DialogTitle,
   DialogBody,
-  DialogActions,
   DialogContent,
   Button,
   Divider,
@@ -13,21 +12,14 @@ import {
   Tab,
   Dropdown,
   Option,
-  Label,
 } from "@fluentui/react-components"
-import InfiniteScroll from "react-infinite-scroll-component"
 import { Dismiss24Regular } from "@fluentui/react-icons"
 import { CWCConversation } from "./CWCComponents/CWCConversation"
 import { mockCellItems, mockConversation } from "./data/mockData"
 import { CWCUtteranceList } from "./CWCComponents/CWCUtteranceList"
 import React from "react"
-import {
-  CWCUtteranceCell,
-  type CWCUtteranceCellProps,
-} from "./CWCComponents/CWCUtteranceCell"
-import { InfiniteScrollList } from "./CWCComponents/WindowScrollList"
+import { type CWCUtteranceCellProps } from "./CWCComponents/CWCUtteranceCell"
 import { cloneDeep } from "lodash"
-import { InfiniteDynamicList } from "./CWCComponents/ff"
 
 const cellItems = [
   "Can you come up with a funny out-of-office message?",
@@ -96,10 +88,15 @@ const useStyles = makeStyles({
 
 export function App() {
   const [cellItems, setCellItems] = React.useState<CWCUtteranceCellProps[]>(
-    mockCellItems.slice(0, 4)
+    mockCellItems.slice(0, 12)
   )
 
-  const onFetchData = () => {
+  const onFetchData = async () => {
+    if (cellItems.length >= 20) {
+      console.log("No more data to fetch")
+      return
+    }
+    await new Promise((resolve) => setTimeout(resolve, 3000))
     console.log("fetch data")
     const nextItems = cloneDeep(cellItems)
     setCellItems((prevItems) => [...prevItems, ...nextItems])
@@ -123,13 +120,13 @@ export function App() {
           ></DialogTitle>
           <DialogContent>
             <div className={styles.content}>
-              {/* <CWCUtteranceList
+              <CWCUtteranceList
                 metric="sbsleo_score_a"
                 items={cellItems}
                 onFetchData={onFetchData}
                 className={styles.cellList}
-              /> */}
-              <InfiniteDynamicList className={styles.cellList} />
+              />
+
               <Divider vertical={true} />
               <div className={styles.details}>
                 <TabList

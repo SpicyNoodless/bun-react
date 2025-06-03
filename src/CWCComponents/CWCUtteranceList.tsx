@@ -10,12 +10,12 @@ import {
   type CWCUtteranceCellProps,
 } from "./CWCUtteranceCell"
 import { Search16Filled } from "@fluentui/react-icons"
-import { InfiniteScrollList } from "./WindowScrollList"
+import { InfiniteDynamicList } from "./DynamicHeightList"
 
 type CWCUtteranceListProps = {
   metric: string
   items: CWCUtteranceCellProps[]
-  onFetchData?: () => void
+  onFetchData?: () => Promise<void>
 } & React.HTMLAttributes<HTMLDivElement>
 
 const useStyles = makeStyles({
@@ -43,7 +43,8 @@ export const CWCUtteranceList = ({
   const styles = useStyles()
   const cellIdPrefix = useId("utterance-cell-")
 
-  const renderItem = (item: CWCUtteranceCellProps) => {
+  const renderItem = (index: number) => {
+    const item = items[index]
     return (
       <CWCUtteranceCell
         key={`${cellIdPrefix}-${item.id}`}
@@ -57,11 +58,12 @@ export const CWCUtteranceList = ({
     <div className={mergeClasses(styles.container, className)}>
       <Input contentBefore={<Search16Filled />} />
       <Text>Sort by {<Text>{metric}</Text>} delta</Text>
-      <InfiniteScrollList
-        data={items}
+      <InfiniteDynamicList
+        items={items}
+        estimatedItemHeight={50}
         loadMore={onFetchData}
-        itemHeight={90}
         renderItem={renderItem}
+        className={styles.list}
       />
     </div>
   )
