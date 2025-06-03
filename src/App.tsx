@@ -27,6 +27,7 @@ import {
 } from "./CWCComponents/CWCUtteranceCell"
 import { InfiniteScrollList } from "./CWCComponents/WindowScrollList"
 import { cloneDeep } from "lodash"
+import { InfiniteDynamicList } from "./CWCComponents/ff"
 
 const cellItems = [
   "Can you come up with a funny out-of-office message?",
@@ -122,12 +123,13 @@ export function App() {
           ></DialogTitle>
           <DialogContent>
             <div className={styles.content}>
-              <CWCUtteranceList
+              {/* <CWCUtteranceList
                 metric="sbsleo_score_a"
                 items={cellItems}
                 onFetchData={onFetchData}
                 className={styles.cellList}
-              />
+              /> */}
+              <InfiniteDynamicList className={styles.cellList} />
               <Divider vertical={true} />
               <div className={styles.details}>
                 <TabList
