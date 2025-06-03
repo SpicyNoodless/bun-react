@@ -21,7 +21,12 @@ import { CWCConversation } from "./CWCComponents/CWCConversation"
 import { mockCellItems, mockConversation } from "./data/mockData"
 import { CWCUtteranceList } from "./CWCComponents/CWCUtteranceList"
 import React from "react"
-import type { CWCUtteranceCellProps } from "./CWCComponents/CWCUtteranceCell"
+import {
+  CWCUtteranceCell,
+  type CWCUtteranceCellProps,
+} from "./CWCComponents/CWCUtteranceCell"
+import { InfiniteScrollList } from "./CWCComponents/WindowScrollList"
+import { cloneDeep } from "lodash"
 
 const cellItems = [
   "Can you come up with a funny out-of-office message?",
@@ -94,10 +99,8 @@ export function App() {
   )
 
   const onFetchData = () => {
-    const nextItems = mockCellItems.slice(
-      cellItems.length,
-      cellItems.length + 4
-    )
+    console.log("fetch data")
+    const nextItems = cloneDeep(cellItems)
     setCellItems((prevItems) => [...prevItems, ...nextItems])
   }
 
@@ -120,7 +123,7 @@ export function App() {
           <DialogContent>
             <div className={styles.content}>
               <CWCUtteranceList
-                metric="sbsleo score"
+                metric="sbsleo_score_a"
                 items={cellItems}
                 onFetchData={onFetchData}
                 className={styles.cellList}
