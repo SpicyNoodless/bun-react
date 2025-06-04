@@ -14,6 +14,7 @@ export type CWCConversationProps = {
   title: string
   link: string
   score: number
+  delta?: number
   utterance: string
   content: string
 } & React.HTMLAttributes<HTMLDivElement>
@@ -43,12 +44,23 @@ const useStyles = makeStyles({
     ...shorthands.borderColor("#B0BEFF"),
     fontWeight: "semibold",
   },
+
+  green: {
+    color: "green",
+  },
+  red: {
+    color: "red",
+  },
+  gray: {
+    color: "gray",
+  },
 })
 
 export const CWCConversation = ({
   title,
   link,
   score,
+  delta,
   utterance,
   content,
   className,
@@ -60,6 +72,20 @@ export const CWCConversation = ({
     window.open(link, "_blank", "noopener,noreferrer")
   }, [link])
 
+  const renderDelta = useCallback(() => {
+    let deltaClass = styles.gray
+    let deltaText = "(+0.00)"
+    if (delta > 0) {
+      deltaClass = styles.green
+      deltaText = `(+${delta.toFixed(2)})`
+    } else if (delta < 0) {
+      deltaClass = styles.red
+      deltaText = `(${delta.toFixed(2)})`
+    }
+
+    return <Label className={deltaClass}>{deltaText}</Label>
+  }, [delta])
+
   return (
     <div className={mergeClasses(styles.container, className)}>
       <div className={styles.header}>
@@ -68,7 +94,7 @@ export const CWCConversation = ({
             {title}
           </Label>
           <Label size="medium" weight="regular">
-            {score}
+            {score} {delta && renderDelta()}
           </Label>
         </div>
         <Button

@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     gap: "16px",
   },
   metricsSelection: {
-    maxWidth: "20%",
+    maxWidth: "30%",
     borderRadius: "8px",
   },
   conversations: {
@@ -26,25 +26,28 @@ const useStyles = makeStyles({
     flexGrow: 1,
     overflowY: "auto",
   },
+  conversation: {
+    flexBasis: "50%",
+  },
 })
-
-const dropDownItems = [
-  "Metrics: sbsleo_score_a",
-  "Metrics: sbsleo_score_b",
-  "Metrics: sbsleo_score_c",
-]
 
 type CWCConversationDetailProps = {
   conversationA: CWCConversationProps
   conversationB: CWCConversationProps
+  metrics: string[]
+  defaultMetric: string
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const CWCConversationDetail = ({
   conversationA,
   conversationB,
+  metrics,
+  defaultMetric,
   className,
 }: CWCConversationDetailProps) => {
   const styles = useStyles()
+
+  const delta = conversationA.score - conversationB.score
 
   return (
     <div className={mergeClasses(styles.container, className)}>
@@ -60,9 +63,10 @@ export const CWCConversationDetail = ({
       </TabList>
       <Dropdown
         placeholder="Select an metric"
+        defaultValue={defaultMetric}
         className={styles.metricsSelection}
       >
-        {dropDownItems.map((option) => (
+        {metrics.map((option) => (
           <Option key={option} value={option}>
             {option}
           </Option>
@@ -75,13 +79,16 @@ export const CWCConversationDetail = ({
           score={conversationA.score}
           utterance={conversationA.utterance}
           content={conversationA.content}
+          className={styles.conversation}
         />
         <CWCConversation
           title={conversationB.title}
           link={conversationB.link}
           score={conversationB.score}
+          delta={delta}
           utterance={conversationB.utterance}
           content={conversationB.content}
+          className={styles.conversation}
         />
       </div>
     </div>

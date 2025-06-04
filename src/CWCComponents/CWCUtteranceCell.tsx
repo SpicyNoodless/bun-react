@@ -1,14 +1,14 @@
+import type { Utterance } from "@/store/CWCDiagnosisStore"
 import {
   Label,
   makeStyles,
   mergeClasses,
   Text,
 } from "@fluentui/react-components"
+import { useCallback } from "react"
 
-export type CWCUtteranceCellProps = {
-  text: string
-  delta: number
-} & React.HTMLAttributes<HTMLDivElement>
+export type CWCUtteranceCellProps = Utterance &
+  React.HTMLAttributes<HTMLDivElement>
 
 const useStyles = makeStyles({
   container: {
@@ -47,26 +47,30 @@ export const CWCUtteranceCell = ({
   className,
 }: CWCUtteranceCellProps) => {
   const styles = useStyles()
-  let deltaClass = styles.gray
-  let deltaText = "+0.00"
-  if (delta > 0) {
-    deltaClass = styles.green
-    deltaText = `+${delta.toFixed(2)}`
-  } else if (delta < 0) {
-    deltaClass = styles.red
-    deltaText = `${delta.toFixed(2)}`
-  }
+
+  const renderDelta = useCallback(() => {
+    let deltaClass = styles.gray
+    let deltaText = "+0.00"
+    if (delta > 0) {
+      deltaClass = styles.green
+      deltaText = `+${delta.toFixed(2)}`
+    } else if (delta < 0) {
+      deltaClass = styles.red
+      deltaText = `${delta.toFixed(2)}`
+    }
+    return (
+      <Label size="small" className={deltaClass}>
+        {deltaText}
+      </Label>
+    )
+  }, [delta])
 
   return (
     <div className={mergeClasses(styles.container, className)}>
       <Text truncate={true} className={styles.text}>
         {text}
       </Text>
-      <div className={styles.delta}>
-        <Label size="small" className={deltaClass}>
-          {deltaText}
-        </Label>
-      </div>
+      <div className={styles.delta}>{renderDelta()}</div>
     </div>
   )
 }

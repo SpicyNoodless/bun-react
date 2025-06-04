@@ -10,12 +10,12 @@ import {
   makeStyles,
 } from "@fluentui/react-components"
 import { Dismiss24Regular } from "@fluentui/react-icons"
-import { mockCellItems, mockConversation } from "./data/mockData"
-import { CWCUtteranceList } from "./CWCComponents/CWCUtteranceList"
+import { mockCellItems, mockConversation } from "../data/mockData"
+import { CWCUtteranceList } from "./CWCUtteranceList"
 import { useState } from "react"
-import { type CWCUtteranceCellProps } from "./CWCComponents/CWCUtteranceCell"
+import { type CWCUtteranceCellProps } from "./CWCUtteranceCell"
 import { cloneDeep } from "lodash"
-import { CWCConversationDetail } from "./CWCComponents/CWCConversationDetail"
+import { CWCConversationDetail } from "./CWCConversationDetail"
 
 const useStyles = makeStyles({
   container: {
@@ -51,7 +51,11 @@ const metrics = [
   "Metrics: sbsleov3_multiturn",
 ]
 
-export function App() {
+type CWCDiagnosisPageProps = {
+  experimentName: string
+}
+
+export function CWCDiagnosisPage({ experimentName }: CWCDiagnosisPageProps) {
   const [cellItems, setCellItems] = useState<CWCUtteranceCellProps[]>(
     mockCellItems.slice(0, 12)
   )
@@ -76,7 +80,7 @@ export function App() {
       <DialogSurface className={styles.container}>
         <DialogBody className={styles.body}>
           <DialogTitle>
-            {"Utterance Diagnosis of experiment (cwc_control: cwc_treatment)"}
+            {"Utterance Diagnosis of " + experimentName}
           </DialogTitle>
           <DialogTitle
             action={
@@ -108,5 +112,3 @@ export function App() {
     </Dialog>
   )
 }
-
-export default App

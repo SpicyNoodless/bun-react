@@ -2,7 +2,7 @@ import {
   Input,
   makeStyles,
   mergeClasses,
-  Text,
+  SearchBox,
 } from "@fluentui/react-components"
 import { type CWCUtteranceCellProps } from "./CWCUtteranceCell"
 import { Search16Filled } from "@fluentui/react-icons"
@@ -47,7 +47,7 @@ export const CWCUtteranceList = ({
   return (
     <div className={mergeClasses(styles.container, className)}>
       <div className={styles.header}>
-        <Input
+        <SearchBox
           placeholder={"Search utterance"}
           contentBefore={<Search16Filled />}
           className={styles.searchBox}

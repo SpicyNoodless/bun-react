@@ -1,4 +1,5 @@
 import { makeStyles, mergeClasses, Text } from "@fluentui/react-components"
+import Markdown from "react-markdown"
 
 type CWCConversationContentProps = {
   utterance: string
@@ -41,7 +42,7 @@ export const CWCConversationContent = ({
       {responses.map((response, index) => (
         <div key={index} className={styles.response}>
           <Text className={styles.utterance}>{utterance}</Text>
-          <Text>{response}</Text>
+          <Markdown>{response}</Markdown>
         </div>
       ))}
     </div>
