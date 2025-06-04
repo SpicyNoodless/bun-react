@@ -20,12 +20,7 @@ import { CWCUtteranceList } from "./CWCComponents/CWCUtteranceList"
 import React from "react"
 import { type CWCUtteranceCellProps } from "./CWCComponents/CWCUtteranceCell"
 import { cloneDeep } from "lodash"
-
-const dropDownItems = [
-  "Metrics: sbsleo_score_a",
-  "Metrics: sbsleo_score_b",
-  "Metrics: sbsleo_score_c",
-]
+import { CWCConversationDetail } from "./CWCComponents/CWCConversationDetail"
 
 const useStyles = makeStyles({
   container: {
@@ -48,22 +43,8 @@ const useStyles = makeStyles({
     flexBasis: "20%",
     flexShrink: 0,
   },
-  details: {
-    display: "flex",
-    flexDirection: "column",
-    marginLeft: "8px",
-    gap: "16px",
-  },
-  metricsSelection: {
-    maxWidth: "30%",
-  },
-  tabList: {
-    font: "caption",
-  },
-  conversations: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "16px",
+  detail: {
+    height: "100%",
     flexGrow: 1,
   },
 })
@@ -110,46 +91,12 @@ export function App() {
                 onFetchData={onFetchData}
                 className={styles.cellList}
               />
-
               <Divider vertical={true} />
-              <div className={styles.details}>
-                <TabList
-                  appearance="transparent"
-                  size="medium"
-                  defaultSelectedValue="conversation"
-                >
-                  <Tab value="conversation">Conversation</Tab>
-                  <Tab value="search_tool">Search Tool</Tab>
-                  <Tab value="meta_data">Meta Data</Tab>
-                  <Tab value="judgement_reasoning">Judgement Reasoning</Tab>
-                </TabList>
-                <Dropdown
-                  placeholder="Select an metric"
-                  className={styles.metricsSelection}
-                >
-                  {dropDownItems.map((option) => (
-                    <Option key={option} value={option}>
-                      {option}
-                    </Option>
-                  ))}
-                </Dropdown>
-                <div className={styles.conversations}>
-                  <CWCConversation
-                    title={mockConversation[0].title}
-                    link={mockConversation[0].link}
-                    score={mockConversation[0].score}
-                    utterance={mockConversation[0].utterance}
-                    content={mockConversation[0].content}
-                  />
-                  <CWCConversation
-                    title={mockConversation[1].title}
-                    link={mockConversation[1].link}
-                    score={mockConversation[1].score}
-                    utterance={mockConversation[1].utterance}
-                    content={mockConversation[1].content}
-                  />
-                </div>
-              </div>
+              <CWCConversationDetail
+                conversationA={mockConversation[0]}
+                conversationB={mockConversation[1]}
+                className={styles.detail}
+              />
             </div>
           </DialogContent>
         </DialogBody>

@@ -7,7 +7,6 @@ import {
 import { type CWCUtteranceCellProps } from "./CWCUtteranceCell"
 import { Search16Filled } from "@fluentui/react-icons"
 import { UtteranceList } from "./UtteranceList"
-import { mockCellItems } from "@/data/mockData"
 
 type CWCUtteranceListProps = {
   metric: string

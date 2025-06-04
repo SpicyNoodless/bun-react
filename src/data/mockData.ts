@@ -5,7 +5,7 @@ export const mockConversation: CWCConversationProps[]= [
   {
     title: "Control",
     link: "https://google.com",
-    score: { key: "control", value: 59.06 },
+    score: 59.06,
     utterance: "5 ways to make 64502_segmentanalysis.xlsx stand out with catchy titles",
     content: `Here are five ways to make the 64502_segmentanalysis.xlsx[2] file stand out with catchy titles:
 "Unlocking Insights: A Deep Dive into Segment Analysis"
@@ -23,7 +23,7 @@ Would you like to explore any specific aspects of the document further?`,
   {
     title: "Treatment",
     link: "https://bing.com",
-    score: { key: "treatment", value: 100.0 },
+    score: 100.0 ,
     utterance: "5 ways to make 64502_segmentanalysis.xlsx stand out with catchy titles",
     content: `Here are five ways to make the 64502_segmentanalysis.xlsx[2] file stand out with catchy titles:
 "Unlocking Insights: A Deep Dive into Segment Analysis"

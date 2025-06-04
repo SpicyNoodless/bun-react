@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableHeaderCell,
   Text,
+  type SortDirection,
 } from "@fluentui/react-components"
 import { CWCUtteranceCell } from "./CWCUtteranceCell"
 import { useCallback, useState } from "react"
@@ -58,7 +59,7 @@ const useStyles = makeStyles({
 type UtteranceListProps = {
   items: UtteranceItem[]
   metric: string
-  onFetchData?: () => Promise<void>
+  onFetchData?: (sort?: SortDirection) => Promise<void>
 }
 
 export const UtteranceList = ({
@@ -93,8 +94,9 @@ export const UtteranceList = ({
   )
 
   const headerSortProps = (columnId: TableColumnId) => ({
-    onClick: (e: React.MouseEvent) => {
-      console.log("Header clicked:", columnId)
+    onClick: async (e: React.MouseEvent) => {
+      const sortDirection = getSortDirection(columnId)
+      await onFetchData?.(sortDirection)
       toggleColumnSort(e, columnId)
     },
     sortDirection: getSortDirection(columnId),
@@ -122,11 +124,9 @@ export const UtteranceList = ({
   )
 
   const handleFetchData = useCallback(async () => {
-    console.log("Fetching data...")
-
     setIsLoading(true)
     try {
-      await onFetchData()
+      await onFetchData?.()
     } catch (error) {
       console.error("Error fetching data:", error)
     } finally {
