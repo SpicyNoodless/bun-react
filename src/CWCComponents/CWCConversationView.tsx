@@ -1,13 +1,12 @@
 import {
   Button,
   Label,
-  Link,
   makeStyles,
   mergeClasses,
   shorthands,
 } from "@fluentui/react-components"
 import { Open16Filled } from "@fluentui/react-icons"
-import { CWCConversationContent } from "./CWCConversationContent"
+import { CWCConversationContentView } from "./CWCConversationContentView"
 import { useCallback } from "react"
 
 export type CWCConversationProps = {
@@ -56,7 +55,7 @@ const useStyles = makeStyles({
   },
 })
 
-export const CWCConversation = ({
+export const CWCConversationView = ({
   title,
   link,
   score,
@@ -107,7 +106,9 @@ export const CWCConversation = ({
           DevUI
         </Button>
       </div>
-      <CWCConversationContent utterance={utterance} responses={responses} />
+      <CWCConversationContentView utterance={utterance} responses={responses} />
     </div>
   )
 }
+
+CWCConversationView.displayName = "CWCConversationView"

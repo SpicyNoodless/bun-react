@@ -4,13 +4,12 @@ import {
   mergeClasses,
   SearchBox,
 } from "@fluentui/react-components"
-import { type CWCUtteranceCellProps } from "./CWCUtteranceCell"
 import { Search16Filled } from "@fluentui/react-icons"
 import { UtteranceList } from "./UtteranceList"
+import { observer } from "mobx-react-lite"
+import { CWCDiagnosisStore } from "@/store/CWCDiagnosisStore"
 
 type CWCUtteranceListProps = {
-  metric: string
-  items: CWCUtteranceCellProps[]
   onFetchData?: () => Promise<void>
 } & React.HTMLAttributes<HTMLDivElement>
 
@@ -30,30 +29,29 @@ const useStyles = makeStyles({
   searchBox: {
     borderRadius: "8px",
     marginRight: "16px",
+    backgroundColor: "#F7F8FA",
   },
   cell: {
     marginBottom: "8px",
   },
 })
 
-export const CWCUtteranceList = ({
-  metric,
-  items,
-  className,
-  onFetchData,
-}: CWCUtteranceListProps) => {
-  const styles = useStyles()
+export const CWCUtteranceList = observer(
+  ({ className, onFetchData }: CWCUtteranceListProps) => {
+    const styles = useStyles()
+    const items = CWCDiagnosisStore.utterances
 
-  return (
-    <div className={mergeClasses(styles.container, className)}>
-      <div className={styles.header}>
-        <SearchBox
-          placeholder={"Search utterance"}
-          contentBefore={<Search16Filled />}
-          className={styles.searchBox}
-        />
+    return (
+      <div className={mergeClasses(styles.container, className)}>
+        <div className={styles.header}>
+          <SearchBox
+            placeholder={"Search utterance"}
+            contentBefore={<Search16Filled />}
+            className={styles.searchBox}
+          />
+        </div>
+        <UtteranceList items={items} onFetchData={onFetchData} />
       </div>
-      <UtteranceList items={items} metric={metric} onFetchData={onFetchData} />
-    </div>
-  )
-}
+    )
+  }
+)

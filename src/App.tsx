@@ -10,12 +10,20 @@ import {
   makeStyles,
 } from "@fluentui/react-components"
 import { Dismiss24Regular } from "@fluentui/react-icons"
-import { mockCellItems, mockConversation } from "./data/mockData"
 import { CWCUtteranceList } from "./CWCComponents/CWCUtteranceList"
-import { useState } from "react"
-import { type CWCUtteranceCellProps } from "./CWCComponents/CWCUtteranceCell"
+import { useCallback, useEffect } from "react"
 import { cloneDeep } from "lodash"
-import { CWCConversationDetail } from "./CWCComponents/CWCConversationDetail"
+import { DetailView } from "./CWCComponents/DetailView"
+import { CWCDiagnosisStore } from "./store/CWCDiagnosisStore"
+import {
+  setConversationPairAction as setConversationPairAction,
+  setSelectedMetricAction,
+  setUtterancesAction,
+} from "./store/CWCDiagnosisAction"
+import { mockCellItems, mockConversation } from "./data/mockData"
+import { registerCWCDiagnosisOrchestrator } from "./store/CWCDiagnosisOrchestrator"
+
+registerCWCDiagnosisOrchestrator()
 
 const useStyles = makeStyles({
   container: {
@@ -39,33 +47,46 @@ const useStyles = makeStyles({
     flexShrink: 0,
   },
   detail: {
+    flexBasis: "80%",
     height: "100%",
     flexGrow: 1,
   },
 })
 
 const metrics = [
-  "Metrics: groundleo_claimbreak_multiturn1.2",
-  "Metrics: citation_multiturn1.2",
-  "Metrics: sbsleov2_multiturn",
-  "Metrics: sbsleov3_multiturn",
+  "groundleo_claimbreak_multiturn1.2 asdfasdfasdfasdfasdfasdf asdfwqer sadfa qwer gasdg asdf",
+  "citation_multiturn1.2",
+  "sbsleov2_multiturn",
+  "sbsleov3_multiturn",
 ]
 
 export function App() {
-  const [cellItems, setCellItems] = useState<CWCUtteranceCellProps[]>(
-    mockCellItems.slice(0, 12)
-  )
+  // TODO: set selected metric & conversation pair to first utterance
+  const onFetchData = useCallback(async () => {
+    if (CWCDiagnosisStore.utterances.length === 0) {
+      console.log("fetch initial data")
+      setUtterancesAction(mockCellItems.slice(0, 5))
+    }
 
-  const onFetchData = async () => {
-    if (cellItems.length >= 20) {
+    if (CWCDiagnosisStore.utterances.length >= 20) {
       console.log("No more data to fetch")
       return
     }
-    await new Promise((resolve) => setTimeout(resolve, 3000))
+
     console.log("fetch data")
-    const nextItems = cloneDeep(cellItems)
-    setCellItems((prevItems) => [...prevItems, ...nextItems])
-  }
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    const nextItems = cloneDeep(CWCDiagnosisStore.utterances)
+    setUtterancesAction([...CWCDiagnosisStore.utterances, ...nextItems])
+  }, [])
+
+  useEffect(() => {
+    onFetchData()
+    setConversationPairAction({
+      control: mockConversation[0],
+      treatment: mockConversation[1],
+    })
+    setSelectedMetricAction(metrics[0])
+  }, [])
 
   const styles = useStyles()
   return (
@@ -88,15 +109,11 @@ export function App() {
           <DialogContent>
             <div className={styles.content}>
               <CWCUtteranceList
-                metric="sbsleo_score_a"
-                items={cellItems}
                 onFetchData={onFetchData}
                 className={styles.cellList}
               />
               <Divider vertical={true} />
-              <CWCConversationDetail
-                conversationA={mockConversation[0]}
-                conversationB={mockConversation[1]}
+              <DetailView
                 metrics={metrics}
                 defaultMetric={metrics[0]}
                 className={styles.detail}

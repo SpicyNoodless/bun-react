@@ -1,4 +1,4 @@
-import type { Utterance } from "@/store/CWCDiagnosisStore"
+import type { Utterance } from "@/types/utterance"
 import {
   Label,
   makeStyles,

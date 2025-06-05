@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 })
 
-export const CWCConversationContent = ({
+export const CWCConversationContentView = ({
   utterance,
   responses,
   className,
@@ -48,3 +48,5 @@ export const CWCConversationContent = ({
     </div>
   )
 }
+
+CWCConversationContentView.displayName = "CWCConversationContentView"
