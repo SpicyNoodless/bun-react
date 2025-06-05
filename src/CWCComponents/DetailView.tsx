@@ -104,6 +104,11 @@ export const DetailView = observer(
         </TabList>
         <Dropdown
           placeholder="Select an metric"
+          button={
+            <span className={styles.truncatedText}>
+              {`Metric: ${CWCDiagnosisStore.selectedMetric}`}
+            </span>
+          }
           defaultValue={defaultMetric}
           className={styles.metricsSelection}
           onOptionSelect={onOptionSelect}

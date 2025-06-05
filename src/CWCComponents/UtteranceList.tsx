@@ -51,8 +51,8 @@ const useStyles = makeStyles({
   },
   sort: {
     overflowX: "hidden",
-    overflowWrap: "anywhere",
-    width: "100%",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
   cell: {
     width: "100%",
@@ -60,6 +60,11 @@ const useStyles = makeStyles({
   },
   row: {
     borderRadius: "8px",
+  },
+  truncatedText: {
+    overflowX: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
 })
 
@@ -153,9 +158,13 @@ export const UtteranceList = observer(
         <Table sortable={true} className={styles.table}>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell {...headerSortProps("utterance")}>
-                <Text weight="semibold" className={styles.sort}>
-                  {`Sort by ${CWCDiagnosisStore.selectedMetric}`}
+              <TableHeaderCell
+                {...headerSortProps("utterance")}
+                className={styles.sort}
+              >
+                Sort by
+                <Text weight="semibold" className={styles.truncatedText}>
+                  {CWCDiagnosisStore.selectedMetric}
                 </Text>
                 delta
               </TableHeaderCell>
