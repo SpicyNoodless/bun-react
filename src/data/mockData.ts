@@ -1,12 +1,13 @@
-import type { CWCConversationProps } from "@/CWCComponents/CWCConversation";
-import type { CWCUtteranceCellProps } from "@/CWCComponents/CWCUtteranceCell";
+import type { Conversation } from "@/types/conversation"
+import type { Utterance } from "@/types/utterance"
 
-export const mockConversation: CWCConversationProps[]= [
+export const mockConversation: Conversation[] = [
   {
     title: "Control",
     link: "https://google.com",
     score: 59.06,
-    utterance: "Can you show me an example of a filled-out cgaf 001-rev 2 form?",
+    utterance:
+      "Can you show me an example of a filled-out cgaf 001-rev 2 form?",
     content: `Tonight in Calgary, starting at 10 PM, you have a great opportunity to observe various celestial objects. Here are some optimized directions and possible observations for your telescope:
 ### Planets
 1. **Mars**
@@ -58,7 +59,7 @@ Enjoy your night of stargazing! If you need more specific directions or have any
   {
     title: "Treatment",
     link: "https://bing.com",
-    score: 100.0 ,
+    score: 100.0,
     utterance: "sf 3112 form opm",
     content: `The SF 3112 form, also known as the "Documentation in Support of Disability Retirement Application," is used by federal employees applying for disability retirement. This form package includes several components that need to be completed and submitted to the Office of Personnel Management (OPM). Here are the key forms included in the SF 3112 package:
 1. **SF 3112A**: Applicant's Statement of Disability
@@ -73,7 +74,7 @@ If you need further assistance with filling out the form or have specific questi
   },
 ]
 
-export const mockCellItems: CWCUtteranceCellProps[] = [
+export const mockCellItems: Utterance[] = [
   {
     text: "5 ways to make 5_Insurance_Statement_2024-2025_QingYe.pdf stand out with catchy titles",
     delta: 40.94,
@@ -134,4 +135,11 @@ export const mockCellItems: CWCUtteranceCellProps[] = [
     text: "Can you explain how to implement error enums and option enums in Rust?",
     delta: -22.3,
   },
+]
+
+export const mockMetrics = [
+  "groundleo_claimbreak_multiturn1.2 asdfasdfasdfasdfasdfasdf asdfwqer sadfa qwer gasdg asdf",
+  "citation_multiturn1.2",
+  "sbsleov2_multiturn",
+  "sbsleov3_multiturn",
 ]
