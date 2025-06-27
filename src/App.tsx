@@ -1,34 +1,40 @@
-import { Button } from "@fluentui/react-components"
-import { useCallback, useState } from "react"
 import { registerCWCDiagnosisOrchestrator } from "./store/CWCDiagnosisOrchestrator"
 import { observer } from "mobx-react-lite"
-import type { DialogOpenChangeEventHandler } from "@fluentui/react-dialog"
-import { DiagnosisPage } from "./CWCComponents/DiagnosisPage"
+import { TaggedSearchBox } from "./SearchBox/TaggedSearchBox"
+import { useEffect } from "react"
+import { registerSearchBoxOrchestrator } from "./store/searchbox/searchboxOrchestrator"
+import { mockUtterances } from "./store/searchbox/mockUtterances"
+import { filteredUtterances } from "./store/searchbox/searchboxSelector"
+import { setUtterancesAction } from "./store/searchbox/searchboxAction"
 
 registerCWCDiagnosisOrchestrator()
+registerSearchBoxOrchestrator()
 
 export const App = observer(() => {
-  const [isOpen, setIsOpen] = useState(false)
-  const onOpenChange: DialogOpenChangeEventHandler = useCallback(
-    (event, data) => {
-      console.log("Dialog open change:", data.open)
-      setIsOpen(data.open)
-    },
-    []
-  )
-  const mockItems = [
-    { id: "1", text: "Item 1" },
-    { id: "2", text: "Item 2" },
-    { id: "3", text: "Item 3" },
-  ]
+  const tags = ["tag1", "tag2", "tag3", "tag4"]
+
+  useEffect(() => {
+    setUtterancesAction(mockUtterances)
+  }, [])
+
+  const utterances = filteredUtterances.get()
+
   return (
     <div>
-      <DiagnosisPage isOpen={isOpen} onOpenChange={onOpenChange} />
-      {mockItems.map((item) => (
-        <Button key={item.id} onClick={() => setIsOpen(true)}>
-          {item.text}
-        </Button>
-      ))}
+      <TaggedSearchBox tags={tags} />
+      <div>
+        <h2>Filtered Utterances</h2>
+        <ul>
+          {utterances.map((utterance) => (
+            <li key={utterance.key}>
+              {utterance.text} (Delta: {utterance.delta})
+              {utterance.tags && utterance.tags.length > 0 && (
+                <span> - Tags: {utterance.tags.join(", ")}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 })
